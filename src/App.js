@@ -1,6 +1,6 @@
-import { StyleSheet, Text, View, SafeAreaView, Button, TextInput, TouchableOpacity } from 'react-native';
 import React, { useState } from 'react';
-import axios from 'axios';
+import { StyleSheet, Text, View, SafeAreaView, Button, TextInput, TouchableOpacity } from 'react-native';
+import { getUsersList, getUsersById, addNewUser } from './services/api'; // Import API calls from services/api
 
 export default function App() {
   const [responseMessage, setResponseMessage] = useState(""); // State for response message
@@ -9,12 +9,9 @@ export default function App() {
   const [isFormVisible, setIsFormVisible] = useState(true); // To toggle visibility of form after success
   const [confirmDelete, setConfirmDelete] = useState(false); // For delete confirmation
 
-  // Base URL for the API
-  const apiBaseURL = 'https://crudcrud.com/api/ab643670a58749deb9e38e18cb9f6dda';
-
   // Fetch all users
   const callGetUsersList = () => {
-    axios.get(`${apiBaseURL}/users`)
+    getUsersList()
       .then(response => {
         const data = response.data;
         if (data.length > 0) {
@@ -30,7 +27,7 @@ export default function App() {
 
   // Fetch user by ID
   const callGetUserById = (id) => {
-    axios.get(`${apiBaseURL}/users/${id}`)
+    getUsersById(id)
       .then(response => {
         const data = response.data;
         if (data) {
@@ -51,7 +48,7 @@ export default function App() {
       return;
     }
     const params = { name: userName };
-    axios.post(`${apiBaseURL}/users`, params)
+    addNewUser(params)
       .then(response => {
         setResponseMessage(`User added successfully: \n${JSON.stringify(response.data)}`);
         setIsFormVisible(false); // Hide form after success
@@ -68,6 +65,7 @@ export default function App() {
       return;
     }
     const params = { name: userName };
+    // Use your existing API method to update the user if needed
     axios.put(`${apiBaseURL}/users/${userID}`, params)
       .then(response => {
         setResponseMessage(`User updated successfully: \n${JSON.stringify(response.data)}`);
