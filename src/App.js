@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, SafeAreaView, Button, TextInput, TouchableOpacity } from 'react-native';
-import { getUsersList, getUsersById, addNewUser } from './services/api'; // Import API calls from services/api
+import { getUsersList, getUsersById, addNewUser } from './services/API/UserApi'; // Import API calls from services/api
 
 export default function App() {
   const [responseMessage, setResponseMessage] = useState(""); // State for response message
